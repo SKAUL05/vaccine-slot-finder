@@ -1,9 +1,12 @@
 name: Run Vaccine Finder
 
-on: [push]
+on:
+  push:
+  schedule:
+    - cron:  '10 * * * *'
 
 jobs:
-  build:
+  vaccine-script:
 
     runs-on: ubuntu-latest
     strategy:
