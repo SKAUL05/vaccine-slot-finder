@@ -21,8 +21,6 @@ for d in dates:
     jret = list(x.json().values())[0]
 
     for acent in jret:
-        if type(acent) != dict():
-            continue
         app_json = {"Name": "", "PinCode": "", "Capacity": [], "Date": []}
         for sess in acent["sessions"]:
             if sess["available_capacity"] > 0 and sess["min_age_limit"] == 45:
