@@ -64,7 +64,7 @@ for d in dates:
         app_json = {"Name": "", "PinCode": "", "Capacity": [], "Date": []}
         try:
             for sess in acent["sessions"]:
-                if sess["available_capacity"] > 0 and sess["min_age_limit"] == 45:
+                if sess["available_capacity"] > 0 and sess["min_age_limit"] == 18:
                     # print(sess)
                     app_json["Name"] = acent["name"]
                     app_json["PinCode"] = str(acent["pincode"])
