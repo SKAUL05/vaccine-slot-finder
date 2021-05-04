@@ -51,7 +51,7 @@ def prepare_table_html(data):
             + ",".join(a_row["Date"])
             + """</td></tr>"""
         )
-    table_html +=  """</table></html>"""
+    table_html += """</table></html>"""
     return table_style + table_html
 
 
@@ -89,9 +89,7 @@ if pr_json:
             "personalizations": [
                 {
                     "to": [
-                        {
-                            "email": "kaul.sarath@gmail.com",
-                        },
+                        {"email": "kaul.sarath@gmail.com"},
                         {"email": "antra.kaul@gmail.com"},
                     ]
                 }
