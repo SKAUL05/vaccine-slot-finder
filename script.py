@@ -15,7 +15,8 @@ pr_json = []
 for d in dates:
     URL_HIT = URL + d
     x = requests.get(URL_HIT)
-    jret = x.json()["centers"]
+    # print(list(x.json().values())[0])
+    jret = list(x.json().values())[0]
 
     for acent in jret:
         app_json = {"Name": "", "PinCode": "", "Capacity": [], "Date": []}
