@@ -18,6 +18,21 @@ pr_json = []
 
 
 def prepare_table_html(data):
+    table_style = """<html>
+	<head>
+		<style>
+			table {
+				font-family: arial, sans-serif;
+				border-collapse: collapse;
+				width: 100%;
+			}
+			td,tr {
+				border: 1px solid black;
+				text-align: left;
+				padding: 8px;
+			}			
+		</style>
+	</head>"""
     table_html = """<table> <tr>
                     <td>Name</td>
                     <td>PinCode</td>
@@ -36,8 +51,8 @@ def prepare_table_html(data):
             + ",".join(a_row["Date"])
             + """</td></tr>"""
         )
-    table_html += """</table>"""
-    return table_html
+    table_html +=  """</table></html>"""
+    return table_style + table_html
 
 
 for d in dates:
