@@ -58,6 +58,9 @@ def prepare_table_html(data):
 for d in dates:
     URL_HIT = URL + d
     x = requests.get(URL_HIT)
+    if x.status_code != 200:
+        print(x.status_code)
+        continue
     jret = list(x.json().values())[0]
 
     for acent in jret:
