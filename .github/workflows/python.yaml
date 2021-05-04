@@ -48,7 +48,7 @@ jobs:
         # Optional plain body:
         body: Build job of ${{github.repository}} completed successfully!
         # Optional HTML body read from file:
-        html_body: file://README.html
+        html_body: "Checking In"
         ignore_cert: true
         # Optional converting Markdown to HTML (set content_type to text/html too):
         convert_markdown: true
