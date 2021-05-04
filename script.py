@@ -16,6 +16,30 @@ en_date_str = en_date.strftime("%d-%m-%Y")
 dates = [st_date_str, en_date_str]
 pr_json = []
 
+
+def prepare_table_html(data):
+    table_html = """<table> <tr>
+                    <td>Name</td>
+                    <td>PinCode</td>
+                    <td>Capacity</td>
+                    <td>Dates</td></tr>
+                 """
+    for a_row in data:
+        table_html += (
+            """<tr><td>"""
+            + a_row["Name"]
+            + """</td><td>"""
+            + a_row["PinCode"]
+            + """</td><td>"""
+            + ",".join(a_row["Capacity"])
+            + """</td><td>"""
+            + ",".join(a_row["Date"])
+            + """</td></tr>"""
+        )
+    table_html += """</table>"""
+    return table_html
+
+
 for d in dates:
     URL_HIT = URL + d
     x = requests.get(URL_HIT)
@@ -28,8 +52,8 @@ for d in dates:
                 if sess["available_capacity"] > 0 and sess["min_age_limit"] == 45:
                     # print(sess)
                     app_json["Name"] = acent["name"]
-                    app_json["PinCode"] = acent["pincode"]
-                    app_json["Capacity"].append(sess["available_capacity"])
+                    app_json["PinCode"] = str(acent["pincode"])
+                    app_json["Capacity"].append(str(sess["available_capacity"]))
                     app_json["Date"].append(sess["date"])
 
             if app_json["Name"]:
@@ -38,7 +62,9 @@ for d in dates:
             print(e)
 print(pr_json)
 
+
 if pr_json:
+    pr_json = prepare_table_html(pr_json)
     try:
         sg = SendGridAPIClient(os.environ.get("SENDGRID_API_KEY"))
         data = {
@@ -47,13 +73,14 @@ if pr_json:
                     "to": [
                         {
                             "email": "kaul.sarath@gmail.com",
-                        }
+                        },
+                        {"email": "antra.kaul@gmail.com"},
                     ]
                 }
             ],
             "from": {"email": "kaul.sarath@gmail.com", "name": "Vaccine Bot"},
             "subject": "Vaccine Slot Available",
-            "content": [{"type": "text/html", "value": json.dumps(pr_json)}],
+            "content": [{"type": "text/html", "value": pr_json}],
         }
         response = sg.client.mail.send.post(request_body=data)
 
