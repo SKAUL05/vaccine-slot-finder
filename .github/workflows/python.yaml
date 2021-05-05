@@ -23,6 +23,24 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+    - name: Install Express VPN
+      run: |
+          sudo wget https://www.expressvpn.works/clients/linux/expressvpn_3.7.0.29-1_amd64.deb
+          sudo dpkg -i expressvpn_3.7.0.29-1_amd64.deb
+    - name: Start Express VPN
+      run: |
+          sudo apt-get install expect
+          /usr/bin/expect <<EOD
+          spawn expressvpn activate 
+          expect "Enter activation code: "
+          send "${{ secrets.VPN_CODE }}\r"
+          expect "Activated"
+          EOD
+          expressvpn connect "India - Mumbai - 1"
+          expressvpn status
+    - name: Confirm IP location
+      run: |
+          curl ipinfo.io
     - name: Run Script
       run: |
         export SENDGRID_API_KEY=${{ secrets.API_KEY }}
