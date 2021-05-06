@@ -28,8 +28,8 @@ request_header = {
     "Cache-Control": "no-cache",
     "TE": "Trailers",
 }
-
-proxies = {"https": "http://15.206.86.160:8080"}
+proxy_list = ["http://15.206.86.160:8080","http://136.232.243.142:3128","http://59.94.176.111:3128"]
+proxies = {"https": proxy_list[random.randint(0, 2)]}
 
 
 def prepare_table_html(data):
