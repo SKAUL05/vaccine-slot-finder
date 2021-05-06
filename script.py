@@ -1,6 +1,7 @@
 import requests
 import os
 import json
+import random
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 from datetime import datetime, timedelta
@@ -14,7 +15,21 @@ en_date = st_date + timedelta(days=+7)
 en_date_str = en_date.strftime("%d-%m-%Y")
 
 dates = [st_date_str, en_date_str]
-pr_json = []
+res_json = []
+request_header = {
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:88.0) Gecko/20100101 "
+    "Firefox/88.0",
+    "Accept": "application/json, text/plain, */*",
+    "Accept-Language": "en-US,en;q=0.5 --compressed",
+    "Origin": "https://selfregistration.cowin.gov.in",
+    "Connection": "keep-alive",
+    "Referer": "https://selfregistration.cowin.gov.in/",
+    "Pragma": "no-cache",
+    "Cache-Control": "no-cache",
+    "TE": "Trailers",
+}
+
+proxies = {"https": os.environ.get("PROXY", [])[random.randint(1, 6)]}
 
 
 def prepare_table_html(data):
@@ -55,13 +70,13 @@ def prepare_table_html(data):
     return table_style + table_html
 
 
-for d in dates:
-    URL_HIT = URL + d
-    x = requests.get(URL_HIT)
-    if x.status_code != 200:
-        print(x.status_code)
+for date in dates:
+    URL_HIT = URL + date
+    response = requests.get(URL_HIT, headers=request_header, proxies=proxies)
+    if response.status_code != 200:
+        print(response.status_code)
         continue
-    jret = list(x.json().values())[0]
+    jret = list(response.json().values())[0]
 
     for acent in jret:
         app_json = {"Name": "", "PinCode": "", "Capacity": [], "Date": []}
@@ -75,14 +90,14 @@ for d in dates:
                     app_json["Date"].append(sess["date"])
 
             if app_json["Name"]:
-                pr_json.append(app_json)
+                res_json.append(app_json)
         except Exception as e:
             print(e)
-print(pr_json)
+print(res_json)
 
 
-if pr_json:
-    pr_json = prepare_table_html(pr_json)
+if res_json:
+    res_json = prepare_table_html(res_json)
     try:
         sg = SendGridAPIClient(os.environ.get("SENDGRID_API_KEY"))
         data = {
@@ -96,7 +111,7 @@ if pr_json:
             ],
             "from": {"email": "kaul.sarath@gmail.com", "name": "Vaccine Bot"},
             "subject": "Vaccine Slot Available",
-            "content": [{"type": "text/html", "value": pr_json}],
+            "content": [{"type": "text/html", "value": res_json}],
         }
         response = sg.client.mail.send.post(request_body=data)
 
