@@ -2,8 +2,8 @@ name: Run Vaccine Finder
 
 on:
   push:
-  schedule:
-    - cron:  '10 3-18 * * *'
+#   schedule:
+#     - cron:  '10 3-18 * * *'
 
 jobs:
   vaccine-script:
