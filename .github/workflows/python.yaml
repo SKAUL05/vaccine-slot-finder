@@ -44,4 +44,5 @@ jobs:
     - name: Run Script
       run: |
         export SENDGRID_API_KEY=${{ secrets.API_KEY }}
+        export PROXY=${{ secrets.PROXY }}
         python script.py
