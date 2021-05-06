@@ -29,7 +29,7 @@ request_header = {
     "TE": "Trailers",
 }
 
-proxies = {"https": os.environ.get("PROXY", [])[random.randint(1, 6)]}
+proxies = {"https": os.environ.get("PROXY", [])[random.randint(0,2)]}
 
 
 def prepare_table_html(data):
