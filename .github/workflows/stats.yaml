@@ -2,8 +2,8 @@ name: Run Covid Stats
 
 on:
   push:
-  # schedule:
-  #   - cron:  '10 3-18 * * *'
+  schedule:
+    - cron:  '15 2-16 * * *'
 
 jobs:
   stats-script:
@@ -31,3 +31,10 @@ jobs:
         export RECEIVER=${{ secrets.RECEIVER }}
         export SENDER=${{ secrets.SENDER }}
         python covid_stats.py
+    - name: Push DB JSON
+      run: |
+        git config --global user.name github-actions
+        git config --global user.email '${GITHUB_ACTOR}@users.noreply.github.com'          
+        git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+        git commit -am "Pushed DB JSON"
+        git push --force origin HEAD:$GITHUB_REF
