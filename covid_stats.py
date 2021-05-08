@@ -66,12 +66,12 @@ def find_total_cases(cases_json, st_json):
         ) not in cases_json:
             daily_json.append(
                 {
-                    "Confirmed Today": int(case_json[-1]["new_positive"])
-                    - int(case_json[-1]["positive"]),
-                    "Deaths Today": int(case_json[-1]["new_death"])
-                    - int(case_json[-1]["death"]),
-                    "Recovered Today": int(case_json[-1]["new_cured"])
-                    - int(case_json[-1]["cured"]),
+                    "Confirmed Today": str(int(case_json[-1]["new_positive"])
+                    - int(case_json[-1]["positive"])),
+                    "Deaths Today": str(int(case_json[-1]["new_death"])
+                    - int(case_json[-1]["death"])),
+                    "Recovered Today": str(int(case_json[-1]["new_cured"])
+                    - int(case_json[-1]["cured"])),
                     "Active": int(case_json[-1]["new_active"]),
                 }
             )
