@@ -98,25 +98,24 @@ print(res_json)
 
 if res_json:
     res_json = prepare_table_html(res_json)
-    try:
-        sg = SendGridAPIClient(os.environ.get("SENDGRID_API_KEY"))
-        data = {
-            "personalizations": [
-                {
-                    "to": [
-                        {"email": "kaul.sarath@gmail.com"},
-                        {"email": "antra.kaul@gmail.com"},
-                    ]
-                }
-            ],
-            "from": {"email": "kaul.sarath@gmail.com", "name": "Vaccine Bot"},
-            "subject": "Vaccine Slot Available",
-            "content": [{"type": "text/html", "value": res_json}],
-        }
-        response = sg.client.mail.send.post(request_body=data)
+    return
+#     try:
+#         sg = SendGridAPIClient(os.environ.get("SENDGRID_API_KEY"))
+#         data = {
+#             "personalizations": [
+#                 {
+#                     "to": [
+#                       
+#                     ]
+#                 }
+#             ],
+#             "subject": "Vaccine Slot Available",
+#             "content": [{"type": "text/html", "value": res_json}],
+#         }
+#         response = sg.client.mail.send.post(request_body=data)
 
-        print(response.status_code)
-        print(response.body)
-        print(response.headers)
-    except Exception as e:
-        print(e)
+#         print(response.status_code)
+#         print(response.body)
+#         print(response.headers)
+#     except Exception as e:
+#         print(e)
