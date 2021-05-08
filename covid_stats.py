@@ -42,6 +42,9 @@ def send_whatsapp(pr_json, check):
     auth_token = os.environ.get("TOKEN")
     client = Client(account_sid, auth_token)
     msg_body = prepare_case_json(pr_json, check)
+    print(os.environ.get("RECEIVER"))
+    print(type(os.environ.get("RECEIVER")))
+    return
     for num in os.environ.get("RECEIVER"):
         stri = "whatsapp:" + num
         message = client.messages.create(
