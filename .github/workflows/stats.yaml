@@ -3,7 +3,7 @@ name: Run Covid Stats
 on:
 #   push:
   schedule:
-    - cron:  '15 2-16 * * *'
+    - cron:  '15 2-18 * * *'
 
 jobs:
   stats-script:
