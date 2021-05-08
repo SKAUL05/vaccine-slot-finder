@@ -1,7 +1,7 @@
 name: Run Vaccine Finder
 
 on:
-#   push:
+  pull_request:
   # schedule:
   #   - cron:  '10 3-18 * * *'
 
