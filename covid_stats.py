@@ -18,7 +18,7 @@ def prepare_case_json(data, case=""):
     if case == "State":
         msg = "Your Stats code is 32421"
         msg += (
-            "*J&K Daily Tally*\n*Date: "
+            "\n*J&K Daily Tally*\n*Date: "
             + datetime.now().strftime("%d-%m-%Y")
             + "*\n*----------------*\n"
         )
