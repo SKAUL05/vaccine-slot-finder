@@ -9,13 +9,15 @@ STATE = "https://api.covid19india.org/data.json"
 CASES = "https://www.mohfw.gov.in/data/datanew.json"
 
 def prepare_case_json(data, case=""):
-    msg = (
-        "*India Daily Tally*\n*Date: "
+    msg = "Your Stats code is 32421"
+    msg += (
+        "\n*India Daily Tally*\n*Date: "
         + datetime.now().strftime("%d-%m-%Y")
         + "*\n*----------------*\n"
     )
     if case == "State":
-        msg = (
+        msg = "Your Stats code is 32421"
+        msg += (
             "*J&K Daily Tally*\n*Date: "
             + datetime.now().strftime("%d-%m-%Y")
             + "*\n*----------------*\n"
