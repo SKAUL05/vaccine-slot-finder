@@ -57,7 +57,7 @@ def find_total_cases(cases_json, st_json):
     req_s_json = requests.get(STATE)
     daily_json = []
     state_json = []
-    dt_state = datetime.now().strftime("%d/%m/%Y")
+    dt_state = datetime.now().strftime("%d/%m/%Y") + timedelta(days=-1)
 
     if req_json.status_code == 200:
         case_json = req_json.json()
