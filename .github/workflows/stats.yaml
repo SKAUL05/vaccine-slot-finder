@@ -32,6 +32,7 @@ jobs:
         export SENDER=${{ secrets.SENDER }}
         python covid_stats.py
     - name: Push DB JSON
+      continue-on-error: true
       run: |
         git config --global user.name github-actions
         git config --global user.email '${GITHUB_ACTOR}@users.noreply.github.com'          
