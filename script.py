@@ -28,7 +28,7 @@ request_header = {
     "Cache-Control": "no-cache",
     "TE": "Trailers",
 }
-proxy_list = ["http://15.206.86.160:8080","http://136.232.243.142:3128","http://59.94.176.111:3128"]
+proxy_list =  os.environ.get("PROXY").strip('][').split(',')
 proxies = {"https": proxy_list[random.randint(0, 2)]}
 
 
