@@ -2,6 +2,7 @@ name: Run Covid Stats
 
 on:
 #   push:
+  workflow_dispatch:
   schedule:
     - cron:  '1/15 2-5,12-17 * * *'
 
