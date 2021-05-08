@@ -86,6 +86,7 @@ def find_total_cases(cases_json, st_json):
                         "Recovered Today": a_state["deltarecovered"],
                     }
                 )
+    print(dt_india, cases_json)
     if daily_json and dt_india not in cases_json:
         print("Cases Found")
         send_whatsapp(daily_json, "Cases")
@@ -102,6 +103,7 @@ def find_total_cases(cases_json, st_json):
 if __name__ == "__main__":
     with open("database.json", "r") as openfile:
         json_object = json.load(openfile)
+    print("JSON OBJECT FETCHED-----", json_object)
     ret_cs_json, ret_st_json = find_total_cases(
         json_object["INDIA"], json_object["JK"]
     )
