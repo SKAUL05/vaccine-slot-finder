@@ -5,8 +5,8 @@ import time
 from twilio.rest import Client
 from datetime import datetime, timedelta
 
-CASES = "https://api.covid19india.org/data.json"
-
+STATE = "https://api.covid19india.org/data.json"
+CASES = "https://www.mohfw.gov.in/data/datanew.json"
 
 def prepare_case_json(data, case=""):
     msg = (
@@ -54,25 +54,28 @@ def send_whatsapp(pr_json, check):
 
 def find_total_cases(cases_json, st_json):
     req_json = requests.get(CASES)
+    req_s_json = requests.get(STATE)
     daily_json = []
     state_json = []
-    dt_india = (datetime.now() + timedelta(days=-1)).strftime("%Y-%m-%d")
     dt_state = datetime.now().strftime("%d/%m/%Y")
 
     if req_json.status_code == 200:
         case_json = req_json.json()
-        if case_json["cases_time_series"][-1]["dateymd"] == dt_india:
+        if (
+            int(case_json[-1]["new_active"]) - int(case_json[-1]["active"])
+        ) not in cases_json:
             daily_json.append(
                 {
-                    "Confirmed Today": case_json["cases_time_series"][-1][
-                        "dailyconfirmed"
-                    ],
-                    "Deaths Today": case_json["cases_time_series"][-1]["dailydeceased"],
-                    "Recovered Today": case_json["cases_time_series"][-1][
-                        "dailyrecovered"
-                    ],
+                    "Confirmed Today": int(case_json[-1]["new_positive"])
+                    - int(case_json[-1]["positive"]),
+                    "Deaths Today": int(case_json[-1]["new_death"])
+                    - int(case_json[-1]["death"]),
+                    "Recovered Today": int(case_json[-1]["new_cured"])
+                    - int(case_json[-1]["cured"]),
+                    "Active": int(case_json[-1]["new_active"]),
                 }
             )
+        case_json = req_s_json.json()
         st = case_json["statewise"]
         for a_state in st:
             if (
@@ -86,11 +89,10 @@ def find_total_cases(cases_json, st_json):
                         "Recovered Today": a_state["deltarecovered"],
                     }
                 )
-    print(dt_india, cases_json)
-    if daily_json and dt_india not in cases_json:
+    if daily_json and daily_json[0]["Active"] not in cases_json:
         print("Cases Found")
         send_whatsapp(daily_json, "Cases")
-        cases_json.append(dt_india)
+        cases_json.append(daily_json[0]["Active"])
     if state_json and dt_state not in st_json:
         print("State Found")
         send_whatsapp(state_json, "State")
