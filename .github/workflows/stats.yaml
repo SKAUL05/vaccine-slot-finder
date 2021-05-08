@@ -1,7 +1,7 @@
 name: Run Covid Stats
 
 on:
-  push:
+#   push:
   schedule:
     - cron:  '15 2-16 * * *'
 
