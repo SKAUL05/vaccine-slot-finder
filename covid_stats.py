@@ -33,7 +33,7 @@ def prepare_case_json(data, case=""):
             + "\n"
             + "-------------\n\n"
         )
-    msg += "*Note: If you want to continue receiving messages please send* ```join friend-generally``` * in order to keep your environment activated.*" 
+    msg += "*Note: If you want to continue receiving messages please send message join friend-generally in order to keep your environment activated.*"
     return msg
 
 
