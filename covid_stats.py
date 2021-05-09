@@ -9,15 +9,13 @@ STATE = "https://api.covid19india.org/data.json"
 CASES = "https://www.mohfw.gov.in/data/datanew.json"
 
 def prepare_case_json(data, case=""):
-    msg = "Your Stats code is 32421"
-    msg += (
+    msg = (
         "\n*India Daily Tally*\n*Date: "
         + datetime.now().strftime("%d-%m-%Y")
         + "*\n*----------------*\n"
     )
     if case == "State":
-        msg = "Your Stats code is 32421"
-        msg += (
+        msg = (
             "\n*J&K Daily Tally*\n*Date: "
             + datetime.now().strftime("%d-%m-%Y")
             + "*\n*----------------*\n"
@@ -33,8 +31,9 @@ def prepare_case_json(data, case=""):
             + "Recovered Today:- "
             + row["Recovered Today"]
             + "\n"
-            + "-------------\n"
+            + "-------------\n\n"
         )
+    msg += "*Note: If you want to continue receiving messages please send* ```join friend-generally``` * in order to keep your environment activated.*" 
     return msg
 
 
