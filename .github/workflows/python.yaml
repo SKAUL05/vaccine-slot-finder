@@ -2,6 +2,7 @@ name: Run Vaccine Finder
 
 on:
   pull_request:
+  workflow_dispatch:
   # schedule:
   #   - cron:  '10 3-18 * * *'
 
