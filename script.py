@@ -69,6 +69,40 @@ def prepare_table_html(data):
     table_html += """</table></html>"""
     return table_style + table_html
 
+def prepare_whatsapp_message(data):
+    msg = "*Alert!*\n*Vaccine Slots Available...*\n*----------------*\n\n"
+    for row in data:
+        msg += (
+            "Name:- "
+            + row["Name"]
+            + "\n"
+            + "PinCode:- "
+            + row["PinCode"]
+            + "\n"
+            + "Capacity:- "
+            + ",".join(row["Capacity"])
+            + "\n"
+            + "Dates:- "
+            + ",".join(row["Date"])
+            + "\n"
+            + "-------------\n"
+        )
+    return msg
+
+def send_whatsapp(pr_json):
+
+    account_sid = os.environ.get("ACC_SID")
+    auth_token = os.environ.get("TOKEN")
+    client = Client(account_sid, auth_token)
+    msg_body = prepare_whatsapp_message(pr_json)
+    rec = os.environ.get("RECEIVER").strip('][').split(',')
+    for num in rec:
+        stri = "whatsapp:" + num
+        message = client.messages.create(
+            from_="whatsapp:" + os.environ.get("SENDER"), body=msg_body, to=stri
+        )
+
+        print(message.sid)
 
 for date in dates:
     URL_HIT = URL + date
@@ -99,23 +133,26 @@ print(res_json)
 if res_json:
     res_json = prepare_table_html(res_json)
     print(res_json)
-#     try:
-#         sg = SendGridAPIClient(os.environ.get("SENDGRID_API_KEY"))
-#         data = {
-#             "personalizations": [
-#                 {
-#                     "to": [
-#
-#                     ]
-#                 }
-#             ],
-#             "subject": "Vaccine Slot Available",
-#             "content": [{"type": "text/html", "value": res_json}],
-#         }
-#         response = sg.client.mail.send.post(request_body=data)
+    send_whatsapp(res_json)
+    try:
+        sg = SendGridAPIClient(os.environ.get("SENDGRID_API_KEY"))
+        data = {
+            "personalizations": [
+                {
+                    "to": [
+                        {"email": "kaul.sarath@gmail.com"},
+                        {"email": "antra.kaul@gmail.com"},
+                    ]
+                }
+            ],
+            "from": {"email": "kaul.sarath@gmail.com", "name": "Vaccine Bot"},
+            "subject": "Vaccine Slot Available",
+            "content": [{"type": "text/html", "value": pr_json}],
+        }
+        response = sg.client.mail.send.post(request_body=data)
 
-#         print(response.status_code)
-#         print(response.body)
-#         print(response.headers)
-#     except Exception as e:
-#         print(e)
+        print(response.status_code)
+        print(response.body)
+        print(response.headers)
+    except Exception as e:
+        print(e)
