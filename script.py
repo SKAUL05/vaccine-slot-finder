@@ -99,7 +99,6 @@ print(res_json)
 if res_json:
     res_json = prepare_table_html(res_json)
     print(res_json)
-    return
 #     try:
 #         sg = SendGridAPIClient(os.environ.get("SENDGRID_API_KEY"))
 #         data = {
