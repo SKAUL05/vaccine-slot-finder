@@ -55,7 +55,7 @@ def send_whatsapp(pr_json, check):
 
 def find_total_cases(cases_json, st_json):
     req_json = requests.get(CASES)
-    req_s_json = requests.get(STATE)
+    req_s_json = requests.get(CASES)
     daily_json = []
     state_json = []
     dt_state = datetime.now().strftime("%d/%m/%Y")
@@ -77,17 +77,17 @@ def find_total_cases(cases_json, st_json):
                 }
             )
         case_json = req_s_json.json()
-        st = case_json["statewise"]
-        for a_state in st:
+        for a_state in case_json:
             if (
-                a_state["statecode"] == "JK"
-                and a_state["lastupdatedtime"].split(" ")[0] == dt_state
+                a_state["state_code"] == "01"
             ):
+                dt_state = str(int(a_state["new_positive"]))
                 state_json.append(
                     {
-                        "Confirmed Today": a_state["deltaconfirmed"],
-                        "Deaths Today": a_state["deltadeaths"],
-                        "Recovered Today": a_state["deltarecovered"],
+                        "Confirmed Today": str(int(a_state["new_positive"]) - int(a_state["positive"])),
+                        "Deaths Today": str(int(a_state["new_death"]) - int(a_state["death"])),
+                        "Recovered Today": str(int(a_state["new_cured"]) - int(a_state["cured"])),
+                        "Active": int(a_state["new_active"])
                     }
                 )
     if daily_json and daily_json[0]["Active"] not in cases_json:
