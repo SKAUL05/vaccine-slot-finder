@@ -45,7 +45,7 @@ def send_whatsapp(pr_json, check):
     msg_body = prepare_case_json(pr_json, check)
     rec = os.environ.get("RECEIVER").strip('][').split(',')
     for num in rec:
-        stri = "whatsapp:" + num
+        stri = f"whatsapp:{num}"
         message = client.messages.create(
             from_="whatsapp:" + os.environ.get("SENDER"), body=msg_body, to=stri
         )

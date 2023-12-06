@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 
 URL = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id=230&date="
 
-st_date = datetime.now() + timedelta(days=-(datetime.today().weekday() - 0))
+st_date = datetime.now() + timedelta(days=-(datetime.now().weekday() - 0))
 st_date_str = datetime.now().strftime("%d-%m-%Y")
 en_date = st_date + timedelta(days=+7)
 en_date_str = en_date.strftime("%d-%m-%Y")
@@ -97,7 +97,7 @@ def send_whatsapp(pr_json):
     msg_body = prepare_whatsapp_message(pr_json)
     rec = os.environ.get("RECEIVER").strip('][').split(',')
     for num in rec:
-        stri = "whatsapp:" + num
+        stri = f"whatsapp:{num}"
         message = client.messages.create(
             from_="whatsapp:" + os.environ.get("SENDER"), body=msg_body, to=stri
         )
